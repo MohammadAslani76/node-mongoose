@@ -14,7 +14,12 @@ const Blog = mongoose.Schema({
         require: [true,"Text is required"]
     },
     image : {
-        type : String
+        type : String,
+        default: null
+    },
+    url : {
+        type : String,
+        default: null
     }
 })
 

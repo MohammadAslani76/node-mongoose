@@ -3,6 +3,8 @@ import express from "express";
 import cors from "cors";
 import 'dotenv/config'
 import fileUpload from "express-fileupload"
+// import swaggerUi from "swagger-ui-express";
+// import {specs} from "./swagger.js";
 
 import {connectToDB} from "./middleware/db.js";
 
@@ -18,6 +20,9 @@ app.use(express.json())
 app.use(fileUpload())
 app.use(express.static("public"));
 
+// Swagger
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+
 // Database
 connectToDB()
 const db = mongoose.connection;
@@ -26,7 +31,7 @@ db.once("open",() => console.log("Database connected"))
 
 // Routes
 app.use("/users",UserRoutes)
-app.use("/blog",BlogRoutes)
+app.use("/blogs",BlogRoutes)
 app.use("/car-type",CarTypeRoutes)
 
 app.listen(2024,() => {

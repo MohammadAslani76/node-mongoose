@@ -59,7 +59,7 @@ export const updateCarType = async (req,res) => {
         const id = req.body._id
         if (name !== "") {
             const carType = await CarType.updateOne({_id: id},{$set: req.body})
-            if (carType) {
+            if (carType.matchedCount > 0) {
                 return res.status(200).json({result: true})
             } else return res.json({result: false,message: "Have a problem to update carType"})
         }else {

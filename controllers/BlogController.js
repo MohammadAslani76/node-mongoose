@@ -123,3 +123,16 @@ export const deleteBlog = async (req,res) => {
         res.status(500).json({result: false,error: err.message})
     }
 }
+
+export const getUserBlogs = async (req,res) => {
+    try {
+        const blogs = await Blog.find({userId : req.userId});
+        if (blogs){
+            return res.status(200).json({result: true, data: blogs })
+        } else {
+            return res.json({result: false, message : "Blogs not found!"})
+        }
+    } catch (err) {
+        return res.status(500).json({result: false,error: err.message})
+    }
+}

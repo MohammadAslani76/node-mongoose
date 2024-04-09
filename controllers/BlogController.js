@@ -4,7 +4,7 @@ import fs from "fs"
 
 export const createBlog = async (req,res) => {
     try {
-        if (req.files == null) return res.json({result: false,message: "Please add image"})
+        if (req.files == null) return res.status(400).json({result: false,message: "Please add image"})
 
         const {title,text} = req.body;
         const userId = req.userId;
@@ -18,12 +18,12 @@ export const createBlog = async (req,res) => {
         const allowedType = ['.png','.jpg','.jpeg'];
 
         if(!allowedType.includes(ext.toLowerCase())){
-            return res.json({result : false,msg: "Image must be png,jpg,jpeg"});
+            return res.status(400).json({result : false,msg: "Image must be png,jpg,jpeg"});
         }
-        if(fileSize > 5000000) return res.json({result : false,msg: "Maximum image size is 5Mb"})
+        if(fileSize > 5000000) return res.status(400).json({result : false,msg: "Maximum image size is 5Mb"})
 
         file.mv(`./public/images/${fileName}`, async (err) => {
-            if(err) return res.json({result: false, message: err.message})
+            if(err) return res.status(400).json({result: false, message: err.message})
 
             try {
                 const newBlog = await Blog.create({userId,title,text, image: fileName, url});
@@ -85,15 +85,15 @@ export const editBlog = async (req,res) => {
             const allowedType = ['.png','.jpg','.jpeg'];
 
             if(!allowedType.includes(ext.toLowerCase())){
-                return res.json({result : false,msg: "Image must be png,jpg,jpeg"});
+                return res.status(400).json({result : false,msg: "Image must be png,jpg,jpeg"});
             }
-            if(fileSize > 5000000) return res.json({result : false,msg: "Maximum image size is 5Mb"})
+            if(fileSize > 5000000) return res.status(400).json({result : false,msg: "Maximum image size is 5Mb"})
 
             const filePath = `./public/images/${blog.image}`
             fs.unlinkSync(filePath)
 
             file.mv(`./public/images/${fileName}`, async (err) => {
-                if(err) return res.json({result: false, message: err.message})
+                if(err) return res.status(400).json({result: false, message: err.message})
             })
         }
         try {
